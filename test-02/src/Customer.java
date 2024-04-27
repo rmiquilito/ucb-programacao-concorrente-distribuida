@@ -8,7 +8,7 @@ public class Customer extends Thread {
     public Customer(String name, Bank bank) {
         super(name);
         this.bank = bank;
-        this.account = new Account(bank, this, 1300.0);
+        this.account = new Account(bank, this, 1000.0);
         this.targetStore = new Random().nextInt(2);
 
         bank.setCustomerAccounts(this.account);
