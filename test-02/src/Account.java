@@ -50,10 +50,22 @@ public class Account {
     }
 
     public void deposit(Double value, Account accountRecipient) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted.");
+        }
+
         this.bank.transfer(this, value, accountRecipient);
     }
 
     public void withdraw(Account accountSender, Double value) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted.");
+        }
+
         this.bank.transfer(accountSender, value, this);
     }
 }
