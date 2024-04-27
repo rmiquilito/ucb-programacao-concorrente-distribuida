@@ -39,6 +39,16 @@ public class Account {
         }
     }
 
+    public Boolean scan() {
+        if (this.balance <= 0.0) {
+            this.bank.monitor(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public void deposit(Double value, Account accountRecipient) {
         this.bank.transfer(this, value, accountRecipient);
     }

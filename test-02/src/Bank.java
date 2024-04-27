@@ -44,6 +44,20 @@ public class Bank {
         this.customerAccounts.add(account);
     }
 
+    public Boolean pendingDeposits() {
+        return monitoredAccounts.size() != getCustomerAccounts().size();
+    }
+
+    public void monitor(Account account) {
+        this.monitoringLock.lock();
+
+        try {
+            this.monitoredAccounts.add(account);
+        } finally {
+            this.monitoringLock.unlock();
+        }
+    }
+
     public void transfer(Account accountSender, Double value, Account accountRecipient) {
         this.transferLock.lock();
 
