@@ -29,4 +29,21 @@ public class Account {
         this.balance = balance;
     }
 
+    public String getHolderName() {
+        if (this.holder.getClass() == Store.class) {
+            return ((Store) this.holder).getName();
+        } else if (this.holder.getClass() == Employee.class) {
+            return ((Employee) this.holder).getName();
+        } else {
+            return ((Customer) this.holder).getName();
+        }
+    }
+
+    public void deposit(Double value, Account accountRecipient) {
+        this.bank.transfer(this, value, accountRecipient);
+    }
+
+    public void withdraw(Account accountSender, Double value) {
+        this.bank.transfer(accountSender, value, this);
+    }
 }

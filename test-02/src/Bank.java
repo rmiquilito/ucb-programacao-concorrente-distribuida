@@ -43,4 +43,22 @@ public class Bank {
     public void setCustomerAccounts(Account account) {
         this.customerAccounts.add(account);
     }
+
+    public void transfer(Account accountSender, Double value, Account accountRecipient) {
+        this.transferLock.lock();
+
+        try {
+            Double balance = accountSender.getBalance();
+
+            accountSender.setBalance(balance - value);
+            accountRecipient.setBalance(accountRecipient.getBalance() + value);
+
+            accountSender.getStatement()
+                    .add(accountSender.getHolderName() + "->" + value + "->" + accountRecipient.getHolderName());
+            accountRecipient.getStatement()
+                    .add(accountRecipient.getHolderName() + "<-" + value + "<-" + accountSender.getHolderName());
+        } finally {
+            this.transferLock.unlock();
+        }
+    }
 }
