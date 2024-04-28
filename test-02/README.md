@@ -1,4 +1,4 @@
-## Sistema Bancário utilizando threads
+## Sistema bancário utilizando threads
 
 Este projeto implementa um sistema bancário em Java com programação multithreading. O sistema simula transações financeiras, garantindo a corretude dos saldos das contas dos objetos.
 
