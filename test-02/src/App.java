@@ -7,28 +7,30 @@ public class App {
         ArrayList<Employee> employees = new ArrayList<Employee>();
         ArrayList<Customer> customers = new ArrayList<Customer>();
 
+        // Inicializa os objetos da representação
         for (int i = 0; i < 2; i++) {
             Store store = new Store("store" + (1 + i), bank);
             stores.add(store);
+        }
 
-            for (int j = 0; j < 2; j++) {
-                Employee employee = new Employee("employee" + ((1 + i) + j), store, bank);
-                employees.add(employee);
-                employee.setPriority(Thread.MAX_PRIORITY);
-            }
+        for (int i = 0; i < 4; i++) {
+            Employee employee = new Employee("employee" + (1 + i), stores.get(i % 2), bank);
+            employee.setPriority(Thread.MAX_PRIORITY); // Reforça um argumento de prioridade no contexto de tranferência
+            employees.add(employee);
         }
 
         for (int i = 0; i < 5; i++) {
             Customer customer = new Customer("customer" + (1 + i), bank);
+            customer.setPriority(Thread.MIN_PRIORITY); // Faz reforçar um argumento de prioridade de outro agente
             customers.add(customer);
-            customer.setPriority(Thread.MIN_PRIORITY);
             customer.start();
         }
 
-        for (int i = 0; i < (2 * 2); i++) {
+        for (int i = 0; i < 4; i++) {
             employees.get(i).start();
         }
 
+        // Retém os objetos
         try {
             for (Customer customer : customers) {
                 customer.join();
@@ -45,6 +47,7 @@ public class App {
             System.out.println(e);
         }
 
+        // Imprime no console os registros de transações guardados
         for (Store store : stores) {
             System.out.println("\n\t" + store.getName() + ".account.statement\n");
             System.out.println(store.getAccount().getStatement());
@@ -69,6 +72,7 @@ public class App {
         }
         System.out.println();
 
+        // Imprime no console o estado final dos balanços
         System.out.println();
         for (Store store : stores) {
             System.out.println(store.getName() + "? " + "R$" + store.getAccount().getBalance());
