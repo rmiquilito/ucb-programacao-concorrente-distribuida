@@ -44,7 +44,7 @@ public class Receptionist extends Thread {
 
     public Room getUnoccupiedRoom() {
         try {
-            if (this.passkey.tryLock(5, TimeUnit.SECONDS)) {
+            if (this.passkey.tryLock(1, TimeUnit.SECONDS)) {
                 try {
                     if (this.hotel.getUnoccupiedRooms().size() > 0) {
                         int i = new Random().nextInt(this.hotel.getUnoccupiedRooms().size());
