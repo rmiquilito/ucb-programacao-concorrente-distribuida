@@ -1,4 +1,5 @@
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Father extends Guest {
@@ -21,5 +22,48 @@ public class Father extends Guest {
 
     public CountDownLatch getRestLatch() {
         return this.restLatch;
+    }
+
+    public Boolean booking() {
+        for (Receptionist receptionist : this.getHotel().getReceptionists()) {
+            try {
+                if (receptionist.getService().tryLock(2, TimeUnit.SECONDS)) {
+                    try {
+                        while (receptionist.getLock().isLocked()) {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        receptionist.request();
+
+                        while (!receptionist.getFlag()) {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        ReentrantLock key = receptionist.getFrontDesk();
+                        if (key != null) {
+                            this.getFamily().setRoom(this.getHotel().getRoom(key));
+                            this.key = key;
+
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } finally {
+                        receptionist.setFlag(false);
+                        receptionist.getService().unlock();
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 }
