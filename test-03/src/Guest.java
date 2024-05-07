@@ -21,7 +21,7 @@ public class Guest extends Thread {
             if (latch != null) {
                 latch.countDown();
             }
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -50,7 +50,7 @@ public class Guest extends Thread {
             if (latch != null) {
                 latch.countDown();
             }
-            Thread.sleep(20000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

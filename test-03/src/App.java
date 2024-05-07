@@ -6,7 +6,7 @@ public class App {
         ArrayList<Family> families = new ArrayList<Family>();
 
         hotel = new Hotel();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 13; i++) {
             Family family = new Family("surname" + (1 + i));
 
             family.addMember(new Father("father" + (1 + i), hotel, family));
@@ -60,6 +60,6 @@ public class App {
             }
         }
 
-        System.out.println("Complaints? " + hotel.getComplaints());
+        System.out.println("Reclamações? " + hotel.getComplaints());
     }
 }

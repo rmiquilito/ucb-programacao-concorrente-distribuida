@@ -23,7 +23,7 @@ public class Maid extends Thread {
 
     private ReentrantLock getKey() {
         try {
-            if (this.passkey.tryLock(1, TimeUnit.SECONDS)) {
+            if (this.passkey.tryLock(10, TimeUnit.SECONDS)) {
                 try {
                     if (this.hotel.getKeyStorage().size() > 0) {
                         int i = new Random().nextInt(this.hotel.getKeyStorage().size());
@@ -50,7 +50,7 @@ public class Maid extends Thread {
             this.hotel.getRoom(key).getAccess().acquire();
             System.out.println(this.getName() + " limpa o quarto " + this.hotel.getRoom(key).getNumber() + ".");
 
-            Thread.sleep(5000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -63,7 +63,7 @@ public class Maid extends Thread {
     public void run() {
         while (this.onDuty) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
