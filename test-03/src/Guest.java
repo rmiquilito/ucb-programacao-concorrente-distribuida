@@ -60,4 +60,34 @@ public class Guest extends Thread {
             room.getAccess().release();
         }
     }
+
+    public void run() {
+        try {
+            this.family.getFather().getSettleLatch().await();
+        } catch (InterruptedException e) {
+            return;
+        }
+
+        this.settle(null);
+        this.family.getFamilyWalkLatch().countDown();
+
+        if (this.family.getPlans()) {
+            try {
+                this.family.getFather().getFatherWalkLatch().await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            this.walk(null);
+        }
+
+        try {
+            this.family.getFather().getRestLatch().await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.rest(null);
+        this.family.getLeftLatch().countDown();
+    }
 }
