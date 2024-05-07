@@ -56,4 +56,18 @@ public class Maid extends Thread {
             key.unlock();
         }
     }
+
+    public void run() {
+        while (this.onDuty) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ReentrantLock key = this.getKey();
+            if (key != null) {
+                clean(key);
+            }
+        }
+    }
 }
