@@ -45,13 +45,16 @@ public class Maid extends Thread {
 
     private void clean(ReentrantLock key) {
         key.lock();
+        System.out.println(this.getName() + " encontra o quarto " + this.hotel.getRoom(key).getNumber() + ".");
         try {
             this.hotel.getRoom(key).getAccess().acquire();
+            System.out.println(this.getName() + " limpa o quarto " + this.hotel.getRoom(key).getNumber() + ".");
 
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
+            System.out.println(this.getName() + " finaliza a limpeza.");
             this.hotel.getRoom(key).getAccess().release();
             key.unlock();
         }

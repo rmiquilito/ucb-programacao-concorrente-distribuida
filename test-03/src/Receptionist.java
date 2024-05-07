@@ -76,16 +76,20 @@ public class Receptionist extends Thread {
     public void run() {
         while (true) {
             this.lock.lock();
+            System.out.println(this.getName() + " está disponível.");
             try {
                 try {
                     this.condition.await();
                 } catch (InterruptedException e) {
+                    System.out.println(this.getName() + " volta para casa.");
                     return;
                 }
 
+                System.out.println(this.getName() + " procura quarto vago.");
                 Room room = this.getUnoccupiedRoom();
                 this.frontDesk = room != null ? room.getKey() : null;
             } finally {
+                System.out.println(this.getName() + " atualiza o estado da reserva.");
                 this.flag = true;
                 this.lock.unlock();
             }

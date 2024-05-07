@@ -1,27 +1,22 @@
 import java.util.concurrent.CountDownLatch;
 
 public class Guest extends Thread {
-    private Hotel hotel;
-    private Family family;
+    protected Hotel hotel;
+    protected Family family;
+    protected String fullName;
 
     public Guest(String name, Hotel hotel, Family family) {
         super(name);
         this.hotel = hotel;
         this.family = family;
-    }
-
-    public Hotel getHotel() {
-        return this.hotel;
-    }
-
-    public Family getFamily() {
-        return this.family;
+        this.fullName = this.getName() + " " + family.getSurname();
     }
 
     public void settle(CountDownLatch latch) {
-        Room room = this.getFamily().getRoom();
+        Room room = this.family.getRoom();
         try {
             room.getAccess().acquire();
+            System.out.println(this.fullName + " se acomoda no quarto " + room.getNumber() + ".");
 
             if (latch != null) {
                 latch.countDown();
@@ -39,6 +34,7 @@ public class Guest extends Thread {
             latch.countDown();
         }
         try {
+            System.out.println(this.fullName + " passeia pela cidade.");
             Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -46,9 +42,10 @@ public class Guest extends Thread {
     }
 
     public void rest(CountDownLatch latch) {
-        Room room = this.getFamily().getRoom();
+        Room room = this.family.getRoom();
         try {
             room.getAccess().acquire();
+            System.out.println(this.fullName + " descança no quarto " + room.getNumber() + ".");
 
             if (latch != null) {
                 latch.countDown();
@@ -88,6 +85,7 @@ public class Guest extends Thread {
         }
 
         this.rest(null);
+        System.out.println(this.fullName + " volta para casa.");
         this.family.getLeftLatch().countDown();
     }
 }

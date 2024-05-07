@@ -6,7 +6,7 @@ public class App {
         ArrayList<Family> families = new ArrayList<Family>();
 
         hotel = new Hotel();
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 5; i++) {
             Family family = new Family("surname" + (1 + i));
 
             family.addMember(new Father("father" + (1 + i), hotel, family));
@@ -44,5 +44,22 @@ public class App {
         for (Maid maid : hotel.getMaids()) {
             maid.setOnDuty(false);
         }
+
+        for (Maid maid : hotel.getMaids()) {
+            try {
+                maid.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Maid maid : hotel.getMaids()) {
+            try {
+                maid.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Complaints? " + hotel.getComplaints());
     }
 }

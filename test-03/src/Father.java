@@ -25,10 +25,11 @@ public class Father extends Guest {
     }
 
     public Boolean booking() {
-        for (Receptionist receptionist : this.getHotel().getReceptionists()) {
+        for (Receptionist receptionist : this.hotel.getReceptionists()) {
             try {
                 if (receptionist.getService().tryLock(2, TimeUnit.SECONDS)) {
                     try {
+                        System.out.println(receptionist.getName() + " atende o " + this.fullName + ".");
                         while (receptionist.getLock().isLocked()) {
                             try {
                                 Thread.sleep(500);
@@ -36,6 +37,7 @@ public class Father extends Guest {
                                 e.printStackTrace();
                             }
                         }
+                        System.out.println(this.fullName + " pede uma reserva ao " + receptionist.getName() + ".");
                         receptionist.request();
 
                         while (!receptionist.getFlag()) {
@@ -47,11 +49,13 @@ public class Father extends Guest {
                         }
                         ReentrantLock key = receptionist.getFrontDesk();
                         if (key != null) {
-                            this.getFamily().setRoom(this.getHotel().getRoom(key));
+                            System.out.println(this.fullName + " consegue uma reserva.");
+                            this.family.setRoom(this.hotel.getRoom(key));
                             this.key = key;
 
                             return true;
                         } else {
+                            System.out.println(this.fullName + " não consegue uma reserva.");
                             return false;
                         }
                     } finally {
@@ -68,52 +72,64 @@ public class Father extends Guest {
     }
 
     public void giveUp() {
-        for (Guest guest : this.getFamily().getMembers()) {
+        for (Guest guest : this.family.getMembers()) {
             if (guest instanceof Father) {
                 continue;
             }
+            System.out.println(guest.fullName + " desiste e volta para casa.");
             guest.interrupt();
         }
+
+        this.hotel.addComplaint("A família " + this.family.getSurname() + " deixa uma reclamação");
     }
 
     public void run() {
         for (int i = 0; i < 2; i++) {
             if (this.booking()) {
+                Room room = this.hotel.getRoom(this.key);
                 this.key.lock();
                 try {
+                    System.out.println(this.fullName + " entra no quarto " + room.getNumber() + ".");
                     this.settle(this.settleLatch);
                 } finally {
                     this.key.unlock();
                 }
 
-                if (this.getFamily().getPlans()) {
+                if (this.family.getPlans()) {
                     try {
-                        this.getFamily().getFamilyWalkLatch().await();
+                        this.family.getFamilyWalkLatch().await();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    this.getHotel().addKey(this.key);
+                    System.out.println(this.fullName + " deixa chave do quarto " + room.getNumber() + " na recepção.");
+                    this.hotel.addKey(this.key);
                     this.walk(this.fatherWalkLatch);
                 }
 
                 this.key.lock();
                 try {
+                    if (this.family.getPlans()) {
+                        System.out.println(this.fullName + " entra no quarto " + room.getNumber() + ".");
+                    }
                     this.rest(this.restLatch);
                 } finally {
                     this.key.unlock();
                 }
 
                 try {
-                    this.getFamily().getLeftLatch().await();
+                    this.family.getLeftLatch().await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                this.getHotel().addKey(this.key);
-                this.getFamily().getRoom().setOccupied(false);
+                System.out.println(this.fullName + " entrega chave do quarto " + room.getNumber() + " na recepção.");
+                this.hotel.addKey(this.key);
+                this.family.getRoom().setOccupied(false);
+                System.out.println(this.fullName + " volta para casa.");
                 return;
             }
         }
 
+        System.out.println(this.fullName + " desiste e volta para casa.");
         this.giveUp();
     }
 }

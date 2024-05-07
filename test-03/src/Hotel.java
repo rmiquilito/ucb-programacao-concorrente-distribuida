@@ -11,13 +11,13 @@ public class Hotel {
     private ArrayList<Maid> maids = new ArrayList<Maid>();
 
     public Hotel() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             this.rooms.add(new Room(1 + i));
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             this.receptionists.add(new Receptionist("receptionist" + (1 + i), this, roomsLock));
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             this.maids.add(new Maid("maid" + (1 + i), this, storageLock));
         }
     }
