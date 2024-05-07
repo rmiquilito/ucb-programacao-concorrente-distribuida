@@ -41,4 +41,37 @@ public class Hotel {
     public ArrayList<Maid> getMaids() {
         return this.maids;
     }
+
+    public void addKey(ReentrantLock key) {
+        this.keyStorage.add(key);
+    }
+
+    public void removeKey(ReentrantLock key) {
+        this.keyStorage.remove(key);
+    }
+
+    public void addComplaint(String complaint) {
+        this.complaints.add(complaint);
+    }
+
+    public ArrayList<Room> getUnoccupiedRooms() {
+        ArrayList<Room> unoccupiedRooms = new ArrayList<Room>();
+        for (Room room : this.rooms) {
+            if (!room.getOccupied()) {
+                unoccupiedRooms.add(room);
+            }
+        }
+
+        return unoccupiedRooms;
+    }
+
+    public Room getRoom(ReentrantLock key) {
+        for (Room room : rooms) {
+            if (room.getKey() == key) {
+                return room;
+            }
+        }
+
+        return null;
+    }
 }

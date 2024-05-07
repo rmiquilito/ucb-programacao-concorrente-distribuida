@@ -41,4 +41,18 @@ public class Family {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    public void addMember(Guest member) {
+        this.members.add(member);
+    }
+
+    public Father getFather() {
+        for (Guest guest : this.members) {
+            if (guest instanceof Father) {
+                return (Father) guest;
+            }
+        }
+
+        return null;
+    }
 }
