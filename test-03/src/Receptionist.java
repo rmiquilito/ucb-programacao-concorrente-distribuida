@@ -72,4 +72,23 @@ public class Receptionist extends Thread {
             this.lock.unlock();
         }
     }
+
+    public void run() {
+        while (true) {
+            this.lock.lock();
+            try {
+                try {
+                    this.condition.await();
+                } catch (InterruptedException e) {
+                    return;
+                }
+
+                Room room = this.getUnoccupiedRoom();
+                this.frontDesk = room != null ? room.getKey() : null;
+            } finally {
+                this.flag = true;
+                this.lock.unlock();
+            }
+        }
+    }
 }
