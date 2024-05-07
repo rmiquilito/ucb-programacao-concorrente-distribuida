@@ -75,4 +75,45 @@ public class Father extends Guest {
             guest.interrupt();
         }
     }
+
+    public void run() {
+        for (int i = 0; i < 2; i++) {
+            if (this.booking()) {
+                this.key.lock();
+                try {
+                    this.settle(this.settleLatch);
+                } finally {
+                    this.key.unlock();
+                }
+
+                if (this.getFamily().getPlans()) {
+                    try {
+                        this.getFamily().getFamilyWalkLatch().await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    this.getHotel().addKey(this.key);
+                    this.walk(this.fatherWalkLatch);
+                }
+
+                this.key.lock();
+                try {
+                    this.rest(this.restLatch);
+                } finally {
+                    this.key.unlock();
+                }
+
+                try {
+                    this.getFamily().getLeftLatch().await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                this.getHotel().addKey(this.key);
+                this.getFamily().getRoom().setOccupied(false);
+                return;
+            }
+        }
+
+        this.giveUp();
+    }
 }
