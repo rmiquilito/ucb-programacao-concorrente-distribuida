@@ -66,4 +66,13 @@ public class Father extends Guest {
 
         return false;
     }
+
+    public void giveUp() {
+        for (Guest guest : this.getFamily().getMembers()) {
+            if (guest instanceof Father) {
+                continue;
+            }
+            guest.interrupt();
+        }
+    }
 }
