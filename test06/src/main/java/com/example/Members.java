@@ -12,4 +12,7 @@ public class Members {
     public void setMembers(List<Member> members) {
         this.members = members;
     }
+
+    public Member registerMember(String name) {
+    }
 }
