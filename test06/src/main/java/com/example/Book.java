@@ -37,4 +37,14 @@ public class Book {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"title\": \"" + this.title + "\", " +
+                "\"author\": \"" + this.author + "\", " +
+                "\"genre\": \"" + this.genre + "\", " +
+                "\"amount\": " + this.amount +
+                "}";
+    }
 }

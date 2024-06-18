@@ -21,4 +21,12 @@ public class Member {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"name\": \"" + this.name + "\", " +
+                "\"books\": " + this.books.toString() +
+                "}";
+    }
 }
