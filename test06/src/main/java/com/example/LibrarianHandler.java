@@ -29,10 +29,10 @@ public class LibrarianHandler extends Thread {
                         break;
 
                     case "rent":
-                        oos.writeObject("Name??");
+                        oos.writeObject("Member name??");
                         oos.flush();
                         String name = (String) ois.readObject();
-                        oos.writeObject("Title??");
+                        oos.writeObject("Book title??");
                         oos.flush();
                         String title = (String) ois.readObject();
                         Boolean response = Server.library.rentBook(title, name);
