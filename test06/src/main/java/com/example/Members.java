@@ -47,5 +47,12 @@ public class Members {
     }
 
     public Member registerMember(String name) {
+        try {
+            String object = "{\"name\": \"" + name + "\", \"books\": []}";
+            Member newMember = new ObjectMapper().readValue(object, Member.class);
+            return newMember;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
