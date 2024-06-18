@@ -17,6 +17,7 @@ public class Members {
         this.members = members;
     }
 
+    // Método para atualizar o arquivo JSON a fim de corresponder a coleção atualizada
     public void refreshMembers() throws Exception {
         new ObjectMapper().writeValue(new File("src/main/resources/members.json"), Server.members);
     }
@@ -30,6 +31,7 @@ public class Members {
         return null;
     }
 
+    // Resgata o livro da lista de livros alugados que guardam os membros com base no nome do membro e no título do livro
     public Book fetchBook(String title, String name) {
         List<Book> books = new ArrayList<>();
         for (Member member : members) {
@@ -46,6 +48,7 @@ public class Members {
         return null;
     }
 
+    // Registra um membro com uma lista de aluguéis vazia
     public Member registerMember(String name) {
         try {
             String object = "{\"name\": \"" + name + "\", \"books\": []}";
