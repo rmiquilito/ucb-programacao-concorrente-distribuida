@@ -1,0 +1,64 @@
+{
+    "books": [
+        {
+            "title": "Meditações",
+            "author": "Marco Aurélio",
+            "genre": "Filosofia",
+            "amount": 4
+        },
+        {
+            "title": "Orgulho e Preconceito",
+            "author": "Jane Austen",
+            "genre": "Romance",
+            "amount": 4
+        },
+        {
+            "title": "Nada Pode Me Ferir",
+            "author": "David Goggins",
+            "genre": "Autoajuda",
+            "amount": 2
+        },
+        {
+            "title": "O Homem Invisível",
+            "author": "H.G. Wells",
+            "genre": "Ficção Científica",
+            "amount": 1
+        },
+        {
+            "title": "Utopia",
+            "author": "Thomas More",
+            "genre": "Filosofia",
+            "amount": 14
+        },
+        {
+            "title": "A Revolução dos Bichos",
+            "author": "George Orwell",
+            "genre": "Fábula Política",
+            "amount": 1
+        },
+        {
+            "title": "As Crônicas de Nárnia",
+            "author": "C.S. Lewis",
+            "genre": "Fantasia",
+            "amount": 8
+        },
+        {
+            "title": "Cartas Chilenas",
+            "author": "Tomás Antônio Gonzaga",
+            "genre": "Sátira",
+            "amount": 3
+        },
+        {
+            "title": "O Príncipe",
+            "author": "Nicolau Maquiavel",
+            "genre": "Filosofia Política",
+            "amount": 1
+        },
+        {
+            "title": "O Guia do Mochileiro das Galáxias",
+            "author": "Douglas Adams",
+            "genre": "Ficção Científica",
+            "amount": 10
+        }
+    ]
+}
