@@ -1,7 +1,10 @@
 package com.example;
 
+import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Server {
     public static Library library;
@@ -20,6 +23,9 @@ public class Server {
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(12345)) {
             System.out.println("Server is running.");
+
+            library = new ObjectMapper().readValue(new File("src/main/resources/books.json"), Library.class);
+            members = new ObjectMapper().readValue(new File("src/main/resources/members.json"), Members.class);
 
             while (true) {
                 Socket socket = serverSocket.accept();
